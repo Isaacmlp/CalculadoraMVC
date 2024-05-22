@@ -62,6 +62,7 @@ public class ControlCalculadora implements ActionListener, KeyListener {
                 for (int i = 0 ; i < textolabel.length ; i++) {
                     if (textolabel[i] == '√' ) {
                         raiz = true;
+                        continue;
                     }
 
                     if (((textolabel[i] == '+') || (textolabel[i] == '-') || (textolabel[i] == '*') || (textolabel[i] == '/'))) {
@@ -71,7 +72,7 @@ public class ControlCalculadora implements ActionListener, KeyListener {
 
                     if (raiz) {
                         operando1.append(textolabel[i]);
-                        break;
+
                     }
 
                     if (status) {
@@ -81,9 +82,13 @@ public class ControlCalculadora implements ActionListener, KeyListener {
                     }
                 }
 
-                operandos[0] = Double.parseDouble(operando1.toString());
-                operandos[1] = Double.parseDouble(operando2.toString());
+                if (!raiz) {
+                    operandos[0] = Double.parseDouble(operando1.toString());
+                    operandos[1] = Double.parseDouble(operando2.toString());
+                } else {
+                    operandos[0] = Double.parseDouble(operando1.toString());
 
+                }
                 for (int i = 0 ; i < soporte.length() -1; i++) {
                     if (textolabel[i] == '+') {
                         resultado = modelo.Operaciones(operandos[0], operandos[1], "+");
@@ -255,6 +260,7 @@ public class ControlCalculadora implements ActionListener, KeyListener {
                 for (int i = 0 ; i < textolabel.length ; i++) {
                     if (textolabel[i] == '√' ) {
                         raiz = true;
+                        continue;
                     }
 
                     if (((textolabel[i] == '+') || (textolabel[i] == '-') || (textolabel[i] == '*') || (textolabel[i] == '/'))) {

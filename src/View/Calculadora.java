@@ -44,7 +44,7 @@ public class Calculadora extends JFrame  {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
 
         panel1.setLayout(null);
-        label.setBounds(180,100,150,50);
+        label.setBounds(0,100,330,50);
         panel1.add(label);
 
         panel2 = new JPanel();
