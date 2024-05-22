@@ -57,6 +57,7 @@ public class Calculadora extends JFrame  {
         for (int i = 0 ; i < simbolos.length; i++) {
             btn = new JButton(simbolos[i]);
             btn.addActionListener(control);
+            btn.setFocusable(false);
             panel2.add(btn);
         }
 

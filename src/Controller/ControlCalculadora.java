@@ -21,8 +21,6 @@ public class ControlCalculadora implements ActionListener, KeyListener {
         this.c = c;
         this.modelo = modelo;
         c.addKeyListener(this);
-        c.setFocusable(true);
-
     }
 
     @Override
@@ -170,6 +168,7 @@ public class ControlCalculadora implements ActionListener, KeyListener {
                 c.modificarLabel("5");
                 break;
             case "6":
+
                 c.modificarLabel("6");
                 break;
             case "7":
@@ -243,7 +242,7 @@ public class ControlCalculadora implements ActionListener, KeyListener {
                 soporte = c.getlbl().getText();
                 StringBuilder operando1 = new StringBuilder();
                 StringBuilder operando2 = new StringBuilder();
-                String simbolo = "";
+                String[] simbolo;
                 String result;
                 char[] textolabel;
                 textolabel = soporte.toCharArray();
@@ -256,7 +255,6 @@ public class ControlCalculadora implements ActionListener, KeyListener {
                 for (int i = 0 ; i < textolabel.length ; i++) {
                     if (textolabel[i] == '√' ) {
                         raiz = true;
-
                     }
 
                     if (((textolabel[i] == '+') || (textolabel[i] == '-') || (textolabel[i] == '*') || (textolabel[i] == '/'))) {
