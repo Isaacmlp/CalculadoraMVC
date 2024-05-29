@@ -8,12 +8,11 @@ import View.Calculadora;
 /* Importando Librerias*/
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
-public class ControlCalculadora implements ActionListener, KeyListener {
+import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
+
+public class ControlCalculadora implements ActionListener, KeyListener, MouseListener {
     Calculadora c;
     Modelo modelo;
 
@@ -21,6 +20,7 @@ public class ControlCalculadora implements ActionListener, KeyListener {
         this.c = c;
         this.modelo = modelo;
         c.addKeyListener(this);
+        c.addMouseListener(this);
     }
 
     @Override
@@ -327,16 +327,14 @@ public class ControlCalculadora implements ActionListener, KeyListener {
                         break;
                     } else if(textolabel[i] == '/') {
                         resultado = modelo.Operaciones(operandos[0], operandos[1], "/");
-                        result = String.valueOf(resultado);
-                        c.getlbl().setText("");
-
-                        if(!modelo.VerificarDobule(soporte)) {
-                            resultadoInt = (int) Math.round(resultado);
-                            result = String.valueOf(resultadoInt);
-                            c.Resultado(result);
+                        if (operandos[0] == 0 || operandos[1] == 0) {
+                            c.getlbl().setText("Error de sintaxsis");
                         } else {
+                            result = String.valueOf(resultado);
+                            c.getlbl().setText("");
                             c.Resultado(result);
                         }
+
 
                         break;
                     } else if(textolabel[i] == '√') {
@@ -418,6 +416,137 @@ public class ControlCalculadora implements ActionListener, KeyListener {
 
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        if (e.getButton() == MouseEvent.BUTTON3) { // verifico que si el click que se realizo corresponde al click derecho que es BUTTON 3
+            String soporte;
+            soporte = c.getlbl().getText();
+            StringBuilder operando1 = new StringBuilder();
+            StringBuilder operando2 = new StringBuilder();
+            String[] simbolo;
+            String result;
+            char[] textolabel;
+            textolabel = soporte.toCharArray();
+            double[] operandos = new double[2];
+            double resultado;
+            int resultadoInt;
+            boolean status = false;
+            boolean raiz = false;
+
+            for (int i = 0 ; i < textolabel.length ; i++) {
+                if (textolabel[i] == '√' ) {
+                    raiz = true;
+                    continue;
+                }
+
+                if (((textolabel[i] == '+') || (textolabel[i] == '-') || (textolabel[i] == '*') || (textolabel[i] == '/'))) {
+                    status = true;
+                    continue;
+                }
+
+                if (raiz) {
+                    operando1.append(textolabel[i]);
+                    break;
+                }
+
+                if (status) {
+                    operando2.append(textolabel[i]);
+                } else {
+                    operando1.append(textolabel[i]);
+                }
+            }
+
+            operandos[0] = Double.parseDouble(operando1.toString());
+            operandos[1] = Double.parseDouble(operando2.toString());
+
+            for (int i = 0 ; i < soporte.length() -1; i++) {
+                if (textolabel[i] == '+') {
+                    resultado = modelo.Operaciones(operandos[0], operandos[1], "+");
+                    result = String.valueOf(resultado);
+                    c.getlbl().setText("");
+
+                    if(!modelo.VerificarDobule(soporte)) {
+                        resultadoInt = (int) Math.round(resultado);
+                        result = String.valueOf(resultadoInt);
+                        c.Resultado(result);
+                    } else {
+                        c.Resultado(result);
+                    }
+
+                    break;
+                } else if (textolabel[i] == '-') {
+                    resultado = modelo.Operaciones(operandos[0], operandos[1], "-");
+                    result = String.valueOf(resultado);
+                    c.getlbl().setText("");
+
+                    if(!modelo.VerificarDobule(soporte)) {
+                        resultadoInt = (int) Math.round(resultado);
+                        result = String.valueOf(resultadoInt);
+                        c.Resultado(result);
+                    } else {
+                        c.Resultado(result);
+                    }
+                    break;
+                } else if(textolabel[i] == '*') {
+                    resultado = modelo.Operaciones(operandos[0], operandos[1], "*");
+                    result = String.valueOf(resultado);
+                    c.getlbl().setText("");
+
+                    if(!modelo.VerificarDobule(soporte)) {
+                        resultadoInt = (int) Math.round(resultado);
+                        result = String.valueOf(resultadoInt);
+                        c.Resultado(result);
+                    } else {
+                        c.Resultado(result);
+                    }
+
+                    break;
+                } else if(textolabel[i] == '/') {
+                    resultado = modelo.Operaciones(operandos[0], operandos[1], "/");
+                    if (operandos[0] == 0 || operandos[1] == 0) {
+                        c.getlbl().setText("Error de sintaxsis");
+                    } else {
+                        result = String.valueOf(resultado);
+                        c.getlbl().setText("");
+                        c.Resultado(result);
+                    }
+                    break;
+                } else if(textolabel[i] == '√') {
+                    double resultad;
+                    resultad = modelo.Operaciones(operandos[0]);
+                    result = String.valueOf(resultad);
+                    c.getlbl().setText("");
+                    c.Resultado(result);
+                    break;
+                }  else {
+                    c.getlbl().setText("Error de Sintaxis");
+                }
+            }
+
+        }
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }
 
 
